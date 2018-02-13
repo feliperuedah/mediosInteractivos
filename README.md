@@ -5,4 +5,6 @@ Ejercicios clase Diseño en medios interactivos
 
 [Ejercicio 2](https://feliperuedah.github.io/mediosInteractivos/02/)
 
+[Ejercicio 3](https://feliperuedah.github.io/mediosInteractivos/03/)
+
 
