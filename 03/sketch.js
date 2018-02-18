@@ -67,7 +67,7 @@ function setup()
 function draw() 
 { 
   //Portada  
-  if (frameCount==1) 
+  if (frameCount<=30) 
   {
     background(0);
     
@@ -98,7 +98,7 @@ function draw()
   }
 
   //Animación
-  else if (1<frameCount && frameCount<70) 
+  else if (30<frameCount) 
   {
     background(255);
     
