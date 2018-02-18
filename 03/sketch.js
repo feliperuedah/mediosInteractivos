@@ -204,7 +204,7 @@ function draw()
   }
   
   //Contra portada
-  else if (frameCount==100) 
+  else if (frameCount==300) 
   {
     background(0);
     
@@ -262,7 +262,7 @@ function draw()
     ellipse(xS, height, tamNariz, tamNariz);
   } 
   
-  else if (frameCount==101) 
+  else if (frameCount==301) 
   {
     noLoop();
   }
