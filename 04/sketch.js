@@ -1,269 +1,457 @@
-//Ancho de la zona de dibujo
-var sizeX=322;
 
-//Características mosca
-var mosca=15;
+var d=15;
 
-//Posición mosca
-var x;
-var y;
+var herramientaElegida;
+//Dimensiones botones herramientas
+var wHerramienta;
+var hHerramienta;
+//Alto de la barra de herramientas
+var hBarraHerramientas;
+//Alto de la barra de color
+var hBarraColor;
 
-//Sentidos
-var sx=1;
-var sy=1;
+//Dimensiones botones colores
+var wColor;
+var hColor;
 
-//Velocidades
-var vx;
-var vy;
+//Herramienta a usar
+var herramienta=0;
+//Cantidad herramientas
+var herramientas=10;
 
-//Contador de choques
-var cont=0;
+//Lista de colores
+var colores=[];
 
-//Ancho cara bob
-var cara=200;
+//Variable valor color elegido (0 si no se ha elegido color, 1 si se ha elegido color)
+var colorEl=0;
+//Color de stroke
+var colStroke;
+//Color de fill
+var col;
 
-//Nariz bob
-var xS=50+sizeX/2;
-var tamNariz=30;
+//Colores
+var verde;
+var rojo;
+var azul;
+var amarillo;
+var naranja;
+var rosado;
+var celeste;
+var negro;
+var blanco;
 
-//Ojos bob
-var tamOjo=60;
-var xOjoIzq=xS-tamOjo/2-20;
-var xOjoDer=xS+tamOjo/2+20;
-var yOjos;
-var d=50;
-var theta;
-var pupila=15;
-var iris=20;
-
-//Cejas bob
-var xCejaIzq=xOjoIzq;
-var xCejaDer=xOjoDer;
-var yCejas;
-var ceja=40;
+//Ángulo de la herramienta de vertices de pentágono
+var angulo=0;
 
 function setup() 
-{
-  createCanvas(sizeX+50, 208);
+{ 
+  createCanvas(500, 400);
+  background(255);
   
-  //Posición inicial mosca
-  x=random(50+mosca, width);
-  y=random(mosca, height);
+  //Inicialización de variables
+  wHerramienta=20;
+  hHerramienta=20;
   
-  //Velocidad mosca
-  vx=random(-8, 8);
-  vy=random(-8, 8);
+  hBarraHerramientas=hHerramienta+10;
   
-  //Posiciones ojos
-  yOjos=height-30;
+  wColor=10;
+  hColor=10;
   
-  //Posiciones cejas
-  yCejas=yOjos-tamOjo/2-10;
+  hBarraColor=hColor+10;
 
-  //Color mosca (rojo inicial)
-  col=color(255, 0, 0);
-}
+  yColor=height-hColor-5;
+  
+  col=color(255, 255, 255); 
+  colStroke=color(255, 255, 255);
+  
+  verde=color(0, 255, 0);
+  rojo=color(255, 0, 0);
+  azul=color(0, 0, 255);
+  amarillo=color(255, 242, 0);
+  naranja=color(255, 127, 39);
+  rosado=color(255, 0, 128);
+  celeste=color(0, 255, 255);
+  negro=color(0, 0, 0);
+  blanco=color(255, 255, 255);
+  
+  colores[0]=verde;
+  colores[1]=rojo;
+  colores[2]=azul;
+  colores[3]=amarillo;
+  colores[4]=naranja;
+  colores[5]=rosado;
+  colores[6]=celeste;
+  colores[7]=negro;
+  colores[8]=blanco;
+} 
 
 function draw() 
 { 
-  //Portada  
-  if (frameCount<=30) 
+  //Selecciona la herramienta
+  if(0<=mouseX && mouseX<=width && 0<=mouseY && mouseY<=hBarraHerramientas && mouseIsPressed)
   {
-    background(0);
-    
-    push();
-    noStroke();
-    rectMode(CENTER);   
-    for(var i=0; i<10; i++)
+    herramientaElegida=false;
+    for(var i=0; i<herramientas && !herramientaElegida; i++)
     {
-      tamX=map(i, 0, 9, sizeX, 20);
-      tamY=map(i, 0, 9, height, 10);
-      r=map(i, 0, 9, 94, 251);
-      g=map(i, 0, 9, 9, 50);
-      b=map(i, 0, 9, 2, 34);
-      fill(r,g,b);
-      rect(xS, height/2, tamX, tamY);
+      x=width-(i+1)*(wHerramienta+5);
+      
+      if(x<=mouseX && mouseX<=x+wHerramienta && 5<=mouseY && mouseY<=5+hHerramienta)
+      {      
+        herramienta=i+1;
+        herramientaElegida=true;
+      }
     }
-
-    fill(255);
-    textAlign(CENTER);
-    textSize(30);
-    text('Annoying bug', xS, height/3);
-    
-    fill(190, 190, 190, 200);
-    textSize(15);
-    text('feliperuedah', 4*width/5, height-20);
-    
-    pop();
   }
-
-  //Animación
-  else if (30<frameCount) 
+  
+  //Selecciona el color
+  if(0<=mouseX && mouseX<=width && height-hBarraColor<mouseY && mouseY<=height && mouseIsPressed)
   {
-    background(255);
+    colorElegido=false;
+    for(var i=0; i<colores.length && !colorElegido; i++)
+    {
+      x=width-(i+1)*(wColor+5);
+      
+      if(x<=mouseX && mouseX<=x+wColor && yColor<=mouseY && mouseY<=yColor+hColor)
+      {
+        colStroke=colores[i];
+        col=colores[i];
+        colorElegido=true;
+        colorEl=1;
+      }
+    }
+  }
+  
+  //Dibuja según la herramienta escogida
+  if(0<=mouseX && mouseX<=width && hBarraHerramientas<mouseY && mouseY<=height-hBarraColor && mouseIsPressed)
+  {     
+    if(herramienta==1)
+    {
+      push();
+      stroke(colStroke);
+      strokeWeight(1);
+      line(mouseX-5, mouseY+5, mouseX+5, mouseY-5);
+      pop();
+    }
     
-    //Línea separación
-    push();
-    stroke(230);
-    line(50, 0, 50, height);
+    else if(herramienta==2)
+    {
+      push();
+      noStroke();
+      fill(red(col), green(col), blue(col), 50);
+      ellipse(mouseX, mouseY, d, d);
+      pop();
+    }
     
-    //Distancia mosca-centro ojos
-    d=sqrt(pow(xS-x,2)+pow(yOjos-y,2));
-    //Máxima distancia entre la mosca y el centro de los ojos
-    m=sqrt(pow(xS-width,2)+pow(yOjos,2));
+    else if(herramienta==3)
+    {
+      push();
+      strokeWeight(0.1);
+      stroke(colStroke);
+      fill(col);
+      line(0, hHerramienta+10, mouseX, mouseY);
+      pop();
+    }
     
-    //Cara
+    else if(herramienta==4)
+    {
+      push();
+      strokeWeight(0.2);
+      stroke(colStroke);
+      h=constrain(map(mouseX, 0, width, 0, height-hBarraHerramientas-hBarraColor), 0, height-hBarraHerramientas-hBarraColor);
+      line(mouseX, height-hBarraColor, mouseX, height-hBarraColor-h); 
+      pop();
+    }
+    
+    else if(herramienta==5)
+    {
+      push();
+      strokeWeight(2);
+      stroke(colStroke);
+      translate(mouseX, mouseY)
+      for(var i=0; i<5; i++)
+      {
+        r=30;
+        ellipse(r*cos(angulo+i*TWO_PI/5), r*sin(angulo+i*TWO_PI/5), d/4, d/4);
+      }
+      pop();
+      
+      if(keyIsDown(LEFT_ARROW))
+      {
+        angulo-=0.05;
+      }
+      
+      if(keyIsDown(RIGHT_ARROW))
+      {
+        angulo+=0.051;
+      }
+    }
+    
+    else if(herramienta==6)
+    {
+      push();
+      noStroke();
+      fill(red(col), green(col), blue(col), 80);
+      ellipse(mouseX, mouseY, d/2, d/2);
+      ellipse(width-mouseX, mouseY, d/2, d/2);
+      pop();
+    }
+    
+    else if(herramienta==7)
+    {
+      push();
+      strokeWeight(map(d, 0, 2*width/3, 0.01, 3));
+      stroke(colStroke);
+      line(0, hBarraHerramientas+(height-hBarraColor-hBarraHerramientas)/2, mouseX, mouseY);
+      line(width, hBarraHerramientas+(height-hBarraColor-hBarraHerramientas)/2, mouseX, mouseY);
+      line(width/2, hBarraHerramientas, mouseX, mouseY);
+      line(width/2, height-hBarraColor, mouseX, mouseY);
+      pop();
+    }
+    
+    else if(herramienta==8)
+    {
+      push();
+      
+      pop();
+    }
+  }
+  
+	//Cambia el tamaño de la herramienta a usar
+  if(keyIsDown(UP_ARROW))
+  {
+    d=constrain(d+0.5, 0, 2*width/3);
+  }
+      
+  if(keyIsDown(DOWN_ARROW))
+  {
+    d=constrain(d-0.5, 0, 2*width/3);
+  }
+  
+  //Cambia el ángulo de la herramienta 5
+  if(keyIsDown(LEFT_ARROW))
+  {
+    angulo-=0.05;
+  }
+      
+  if(keyIsDown(RIGHT_ARROW))
+  {
+    angulo+=0.051;
+  }
+  
+  //Barra gris herramientas
+  push();
+  noStroke();
+  fill(240);
+  rect(0, 0, width, hBarraHerramientas);
+  pop();
+  
+  //Botones herramientas
+  
+  //Boton línea
+  push();
+  x=width-(wHerramienta+5);
+  rect(x, 5, wHerramienta, hHerramienta);
+  x=width-(hHerramienta/2+5)
+  line(x-5, 5+hHerramienta/2+5, x+5, hHerramienta/2);
+  pop();
+  
+  //Botón elipse
+  push();
+  x=width-2*(wHerramienta+5);
+  rect(x, 5, wHerramienta, hHerramienta); 
+  x=width-2*(wHerramienta+5)+wHerramienta/2;
+  noStroke();
+  fill(0);
+  ellipse(x, 5+hHerramienta/2, 15, 15);
+  pop();
+  
+  //Botón línea esquina izquierda superior a mouse
+  push();
+  x=width-3*(wHerramienta+5);
+  rect(x, 5, wHerramienta, hHerramienta);
+  strokeWeight(0.5);
+  stroke(0);
+  mx=constrain(map(mouseX, 0, width, x, x+wHerramienta), x, x+wHerramienta);
+  my=constrain(map(mouseY+5, 5, height, 5, 5+hHerramienta), 5, 5+hHerramienta);
+  line(x, 5, mx, my);
+  pop();
+  
+  //Botón líneas verticales
+  push();
+  h=constrain(map(mouseX, 0, width, 0, hHerramienta), 0, hHerramienta);     
+  x=width-4*(wHerramienta+5);
+  rect(x, 5, wHerramienta, hHerramienta);
+  x1=constrain(map(mouseX, 0, width, x, x+wHerramienta), x, x+wHerramienta);
+  strokeWeight(0.5);
+  line(x1, hHerramienta+5, x1, hHerramienta+5-h);
+  pop();
+  
+  //Botón circulos pentágono
+  push();
+  x=width-5*(wHerramienta+5);
+  rect(x, 5, wHerramienta, hHerramienta); 
+  r=6;
+  translate(x+wHerramienta/2, 5+hHerramienta/2);
+  strokeWeight(0.5);
+  for(var i=0; i<5; i++)
+  {
+    ellipse(r*cos(angulo+i*TWO_PI/5), r*sin(angulo+i*TWO_PI/5), 3, 3);
+  }
+  pop();
+  
+  //Botón dibujo simétrico
+  push();
+  x=width-6*(wHerramienta+5);
+  rect(x, 5, wHerramienta, hHerramienta);
+  strokeWeight(0.5);
+  x1=constrain(map(mouseX, 0, width, 0, wHerramienta), 0, wHerramienta);
+  y=constrain(map(mouseY, 0, height, 5, 5+hHerramienta), 5, 5+hHerramienta);
+  noStroke();
+  fill(0);
+  ellipse(x+x1, y, 3, 3);
+  ellipse(x+wHerramienta-x1, y, 3, 3);
+  pop();
+  
+  //Botón 4 lineas medias
+  push();
+  x=width-7*(wHerramienta+5);
+  rect(x, 5, wHerramienta, hHerramienta);
+  x1=constrain(map(mouseX, 0, width, x, x+wHerramienta), x,x+wHerramienta);
+  y1=constrain(map(mouseY, 0, height, 5, 5+hHerramienta), 5, 5+hHerramienta);
+  strokeWeight(0.5);
+  line(x, 5+hHerramienta/2, x1, y1);
+  line(x+wHerramienta, 5+hHerramienta/2, x1, y1);
+  line(x+wHerramienta/2, 5, x1, y1);
+  line(x+wHerramienta/2, 5+hHerramienta, x1, y1);
+  pop();
+  
+  //Botón 
+  push();
+  x=width-8*(wHerramienta+5);
+  rect(x, 5, wHerramienta, hHerramienta);
+  pop();
+  
+  //Botón 
+  push();
+  x=width-9*(wHerramienta+5);
+  rect(x, 5, wHerramienta, hHerramienta);
+  pop();
+  
+  //Botón 
+  push();
+  x=width-10*(wHerramienta+5);
+  rect(x, 5, wHerramienta, hHerramienta);
+  pop();
+  
+  //Barra blanca colores
+  push();
+  noStroke();
+  fill(240);
+  rect(0, height-hColor-10, width, hBarraColor);
+  pop();
+  
+  //Now using: Muestra la herramienta seleccionada
+  if(herramienta!=0)
+  {
+    text('Now using: ', 5, 2*hBarraHerramientas/3);
+    rect(70, 5, wHerramienta, hHerramienta);
+    
+    x=70;
+    
+    //Línea
+    if(herramienta==1)
+    {
+      push();
+      line(x-5+wHerramienta/2, 5+hHerramienta/2+5, x+5+wHerramienta/2, hHerramienta/2);
+      pop();
+    }
+    
+    //Círculo
+    else if(herramienta==2)
+    {
+      push();
+      noStroke();
+      fill(0);
+      ellipse(x+wHerramienta/2, 5+hHerramienta/2, 15, 15);
+      pop();
+    }
+    
+    //Línea esquina-mouse
+    else if(herramienta==3)
+    {
+      push();
+      strokeWeight(0.5);
+      stroke(0);
+      mx=constrain(map(mouseX, 0, width, x, x+wHerramienta), x, x+wHerramienta);
+      my=constrain(map(mouseY+5, 5, height, 5, 5+hHerramienta), 5, 5+hHerramienta);
+      line(x, 5, mx, my);
+      pop();
+    }
+    
+    //Línea vertical
+    else if(herramienta==4)
+    {
+      push();
+      h=constrain(map(mouseX, 0, width, 0, hHerramienta), 0, hHerramienta);     
+      rect(x, 5, wHerramienta, hHerramienta);
+      x1=constrain(map(mouseX, 0, width, x, x+wHerramienta), x, x+wHerramienta);
+      strokeWeight(0.5);
+      line(x1, hHerramienta+5, x1, hHerramienta+5-h);
+      pop();
+    }
+    
+    //Vértices pentágono
+    else if(herramienta==5)
+    { 
+      push();
+      r=6;
+      translate(x+wHerramienta/2, 5+hHerramienta/2);
+      strokeWeight(0.5);
+      for(var i=0; i<5; i++)
+      {
+        ellipse(r*cos(angulo+i*TWO_PI/5), r*sin(angulo+i*TWO_PI/5), 3, 3);
+      }
+      pop();
+    }
+    
+    //Dibujo simétrico
+    else if(herramienta==6)
+    {
+      push();
+      strokeWeight(0.5);
+      x1=constrain(map(mouseX, 0, width, 0, wHerramienta), 0, wHerramienta);
+      y=constrain(map(mouseY, 0, height, 5, 5+hHerramienta), 5, 5+hHerramienta);
+      noStroke();
+      fill(0);
+      ellipse(x+x1, y, 3, 3);
+      ellipse(x+wHerramienta-x1, y, 3, 3);
+      pop();
+    }
+  }
+  
+  //Botones colores
+  push();
+	strokeWeight(0.5);
+  for(var i=0; i<colores.length; i++)
+  {
+    fill(colores[i]);
+    rect(width-(i+1)*(wColor+5), yColor, wColor, hColor);
+  }
+  
+  //Now using: Muestra el color seleccionado
+  if(colorEl!=0)
+  {
     noStroke();
-    fill(map(d, 0, m, 230, 255), map(d, 0, m, 230, 255), 0);
-    rect(xS-cara/2, height/2, cara, height/2);
-    
-    //Ojos
-    
-    //Color ojos
-    noStroke();
-    r=map(d, 0, m, 250, 255);
-    g=map(d, 0, m, 100, 255);
-    b=map(d, 0, m, 80, 255); 
-    fill(r, g, b);
-    
-    //Izquierdo
-    ellipse(xOjoIzq, yOjos, tamOjo, tamOjo);
-    //Derecho
-    ellipse(xOjoDer, yOjos, tamOjo, tamOjo);
-    
-    //Cejas
-    strokeWeight(map(d, 0, m, 3, 1));
-    stroke(0);
-    
-    //Longitud cejas
-    r=map(d, 0, m, ceja/2+3, ceja/2-3);
-    //Ángulo cejas
-    beta=map(d, 0, m, 0.8, -0.5);
-    line(xCejaIzq-r*cos(beta), yCejas-r*sin(beta), xCejaIzq+r*cos(beta), yCejas+r*sin(beta));
-    line(xCejaDer+r*cos(beta), yCejas-r*sin(beta), xCejaDer-r*cos(beta), yCejas+r*sin(beta));    
-    
-    //Nariz
-    noStroke();
-    fill(map(d, 0, m, 205, 230), map(d, 0, m, 205, 230), 0);
-    ellipse(xS, height, tamNariz, tamNariz);
-    
-    //Movimiento ojos
-    izqX=map(x, 50, width, xOjoIzq-tamOjo/2+pupila/2, xOjoIzq+tamOjo/2-pupila/2);
-    izqY=map(y, 0, width, yOjos-tamOjo/2+pupila/2, yOjos+tamOjo/2-pupila/2);
-    derX=map(x, 50, width, xOjoDer-tamOjo/2+pupila/2, xOjoDer+tamOjo/2-pupila/2);
-    derY=map(y, 0, width, yOjos-tamOjo/2+pupila/2, yOjos+tamOjo/2-pupila/2);
-    
-    //Iris
-    fill(0, 100, 255);
-    ellipse(izqX, izqY, iris, iris);
-    ellipse(derX, derY, iris, iris);
-    
-    //Pupilas
     fill(0);
-    pupila=map(d, 0, m, 5, 20);   
-    ellipse(izqX, izqY, pupila, pupila);
-    ellipse(derX, derY, pupila, pupila);
-    pop();
-    
-    //Mosca
-    if(cont%3==0)
-    {
-      col=color(map(x, 0, sizeX, 255, 120), 0, 0);
-    }
-    
-    else if(cont%3==1)
-    {
-      col=color(0, map(x, 0, sizeX, 255, 120), 0);
-    }
-    
-    else if(cont%3==2)
-    {
-      col=color(0, 0, map(x, 0, sizeX, 255, 120));      
-    }
-    
-    //Mosca
-    noStroke();
+    text('Now using:', 5, height-hBarraColor/3);
+  
+    stroke(0);
+    strokeWeight(0.5);
     fill(col);
-    ellipse(x, y, mosca, mosca);
-
-    //Cambio de dirección
-    if (x<=50+mosca/2 || x>=width-mosca/2) 
-    {
-      sx*=-1;
-      cont++;
-    }
-
-    if (y<=mosca/2 || y>=height-mosca/2) 
-    {
-      sy*=-1;
-      cont++;
-    }
-
-    x+=sx*vx;
-    y+=sy*vy;    
+    rect(70, height-hBarraColor+5, wColor, hColor);
   }
-  
-  //Contra portada
-  else if (frameCount==300) 
-  {
-    background(0);
-    
-    noStroke();
-    rectMode(CENTER);   
-    for(var j=0; j<10; j++)
-    {
-      tamX=map(j, 0, 9, sizeX, 20);
-      tamY=map(j, 0, 9, height, 10);
-      r=map(j, 0, 9, 243, 185);
-      g=map(j, 0, 9, 250, 189);
-      b=map(j, 0, 9, 14, 4);
-      fill(r,g,b);
-      rect(xS, height/2, tamX, tamY);
-    }
-    
-    translate(0, -height/3);
-    
-    //Ojos
-    fill(250, 90, 70);
-    ellipse(xOjoIzq, yOjos, tamOjo, tamOjo);
-    ellipse(xOjoDer, yOjos, tamOjo, tamOjo);
-    
-    //Cejas
-    strokeWeight(3);
-    stroke(0);
-    
-    //Longitud cejas
-    r=ceja/2+2;
-    //Ángulo cejas
-    beta=0.5;
-    line(xCejaIzq-r*cos(beta), yCejas-r*sin(beta), xCejaIzq+r*cos(beta), yCejas+r*sin(beta));
-    line(xCejaDer+r*cos(beta), yCejas-r*sin(beta), xCejaDer-r*cos(beta), yCejas+r*sin(beta));    
-    
-    //Iris
-    izqX=xOjoIzq;
-    izqY=yOjos;
-    derX=xOjoDer;
-    derY=yOjos;
-    
-    noStroke();
-    fill(0, 100, 255);
-    ellipse(izqX, izqY, iris, iris);
-    ellipse(derX, derY, iris, iris);
-    
-    //Pupilas
-    fill(0);
-    pupila=10;   
-    ellipse(izqX, izqY, pupila, pupila);
-    ellipse(derX, derY, pupila, pupila);
-    
-    //Nariz
-    noStroke();
-    fill(157, 162, 4);
-    ellipse(xS, height, tamNariz, tamNariz);
-  } 
-  
-  else if (frameCount==301) 
-  {
-    noLoop();
-  }
+  pop();
 }
+    
+
+
