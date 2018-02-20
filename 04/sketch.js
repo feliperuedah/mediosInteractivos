@@ -253,7 +253,7 @@ function draw()
     }
   }
   
-	//Cambia el tamaño de la herramienta a usar
+  //Cambia el tamaño de la herramienta a usar
   if(keyIsDown(UP_ARROW))
   {
     d=constrain(d+0.5, 0, 2*width/3);
