@@ -1,4 +1,4 @@
-
+//Tamaño herramientas
 var d=15;
 
 var herramientaElegida;
@@ -37,6 +37,7 @@ var amarillo;
 var naranja;
 var rosado;
 var celeste;
+var verdeOsc;
 var negro;
 var blanco;
 
@@ -45,7 +46,7 @@ var angulo=0;
 
 function setup() 
 { 
-  createCanvas(500, 400);
+  createCanvas(600, 600);
   background(255);
   
   //Inicialización de variables
@@ -71,6 +72,7 @@ function setup()
   naranja=color(255, 127, 39);
   rosado=color(255, 0, 128);
   celeste=color(0, 255, 255);
+  verdeOsc=color(0, 100, 0);
   negro=color(0, 0, 0);
   blanco=color(255, 255, 255);
   
@@ -81,8 +83,9 @@ function setup()
   colores[4]=naranja;
   colores[5]=rosado;
   colores[6]=celeste;
-  colores[7]=negro;
-  colores[8]=blanco;
+  colores[7]=verdeOsc;
+  colores[8]=negro;
+  colores[9]=blanco;
 } 
 
 function draw() 
@@ -99,6 +102,15 @@ function draw()
       {      
         herramienta=i+1;
         herramientaElegida=true;
+      }
+      
+      //Borra
+      if(herramienta==10)
+      {
+        background(255);
+        colorEl=0;
+        col=blanco;
+        colStroke=blanco;
       }
     }
   }
@@ -124,6 +136,7 @@ function draw()
   //Dibuja según la herramienta escogida
   if(0<=mouseX && mouseX<=width && hBarraHerramientas<mouseY && mouseY<=height-hBarraColor && mouseIsPressed)
   {     
+    //Línea
     if(herramienta==1)
     {
       push();
@@ -133,6 +146,7 @@ function draw()
       pop();
     }
     
+    //Círculo
     else if(herramienta==2)
     {
       push();
@@ -142,6 +156,7 @@ function draw()
       pop();
     }
     
+    //Línea esquina-mouse
     else if(herramienta==3)
     {
       push();
@@ -152,6 +167,7 @@ function draw()
       pop();
     }
     
+    //Línea vertical mouse
     else if(herramienta==4)
     {
       push();
@@ -162,6 +178,7 @@ function draw()
       pop();
     }
     
+    //Círculos vértices pentágono
     else if(herramienta==5)
     {
       push();
@@ -186,6 +203,7 @@ function draw()
       }
     }
     
+    //Dibujo simétrico
     else if(herramienta==6)
     {
       push();
@@ -196,6 +214,7 @@ function draw()
       pop();
     }
     
+    //Líneas mitades-mouse
     else if(herramienta==7)
     {
       push();
@@ -208,10 +227,28 @@ function draw()
       pop();
     }
     
+    //Spray
     else if(herramienta==8)
     {
       push();
+      stroke(colStroke);
+      fill(col);
       
+      for(var i=0; i<d/4; i++)
+      {
+        point(mouseX+random(-d/2, d/2), mouseY+random(-d/2, d/2));
+      }
+      pop();
+    }
+    
+    //Letras
+    else if(herramienta==9)
+    {
+      push();
+      stroke(colStroke);
+      fill(col);
+      textSize(d);
+      text(key, mouseX, mouseY);
       pop();
     }
   }
@@ -255,7 +292,7 @@ function draw()
   line(x-5, 5+hHerramienta/2+5, x+5, hHerramienta/2);
   pop();
   
-  //Botón elipse
+  //Botón círculo
   push();
   x=width-2*(wHerramienta+5);
   rect(x, 5, wHerramienta, hHerramienta); 
@@ -265,7 +302,7 @@ function draw()
   ellipse(x, 5+hHerramienta/2, 15, 15);
   pop();
   
-  //Botón línea esquina izquierda superior a mouse
+  //Botón línea esquina-mouse
   push();
   x=width-3*(wHerramienta+5);
   rect(x, 5, wHerramienta, hHerramienta);
@@ -276,7 +313,7 @@ function draw()
   line(x, 5, mx, my);
   pop();
   
-  //Botón líneas verticales
+  //Botón línea vertical mouse
   push();
   h=constrain(map(mouseX, 0, width, 0, hHerramienta), 0, hHerramienta);     
   x=width-4*(wHerramienta+5);
@@ -325,22 +362,32 @@ function draw()
   line(x+wHerramienta/2, 5+hHerramienta, x1, y1);
   pop();
   
-  //Botón 
+  //Botón spray
   push();
   x=width-8*(wHerramienta+5);
   rect(x, 5, wHerramienta, hHerramienta);
+  
+  for(var i=0; i<30; i++)
+  {
+    point(x+wHerramienta/2+random(-wHerramienta/2, wHerramienta/2), 5+hHerramienta/2+random(-wHerramienta/2, wHerramienta/2));
+  }
   pop();
   
-  //Botón 
+  //Botón letras
   push();
   x=width-9*(wHerramienta+5);
   rect(x, 5, wHerramienta, hHerramienta);
+  text(key, x+6, wHerramienta); 
   pop();
   
-  //Botón 
+  //Botón borrar
   push();
   x=width-10*(wHerramienta+5);
+  fill(rojo);
   rect(x, 5, wHerramienta, hHerramienta);
+  stroke(255);
+  line(x+wHerramienta/4, 5+hHerramienta/4, x+3*wHerramienta/4, 5+3*hHerramienta/4);
+  line(x+wHerramienta/4, 5+3*hHerramienta/4, x+3*wHerramienta/4, 5+hHerramienta/4);
   pop();
   
   //Barra blanca colores
@@ -351,7 +398,7 @@ function draw()
   pop();
   
   //Now using: Muestra la herramienta seleccionada
-  if(herramienta!=0)
+  if(herramienta!=0 && herramienta!=10)
   {
     text('Now using: ', 5, 2*hBarraHerramientas/3);
     rect(70, 5, wHerramienta, hHerramienta);
@@ -374,6 +421,16 @@ function draw()
       fill(0);
       ellipse(x+wHerramienta/2, 5+hHerramienta/2, 15, 15);
       pop();
+      
+      push();
+      strokeWeight(1);
+      fill(0);
+      text('Change size: ', x+wHerramienta+10, 2*hBarraHerramientas/3);
+      strokeWeight(1);
+      fill(0);
+      triangle(180, 5, 185, 10, 175, 10);
+      triangle(180, hBarraHerramientas-5, 185, hBarraHerramientas-10, 175, hBarraHerramientas-10);
+      pop();
     }
     
     //Línea esquina-mouse
@@ -393,7 +450,6 @@ function draw()
     {
       push();
       h=constrain(map(mouseX, 0, width, 0, hHerramienta), 0, hHerramienta);     
-      rect(x, 5, wHerramienta, hHerramienta);
       x1=constrain(map(mouseX, 0, width, x, x+wHerramienta), x, x+wHerramienta);
       strokeWeight(0.5);
       line(x1, hHerramienta+5, x1, hHerramienta+5-h);
@@ -412,6 +468,18 @@ function draw()
         ellipse(r*cos(angulo+i*TWO_PI/5), r*sin(angulo+i*TWO_PI/5), 3, 3);
       }
       pop();
+      
+      push();
+      strokeWeight(1);
+      fill(0);
+      text('Change size: ', x+wHerramienta+10, 2*hBarraHerramientas/3);
+      triangle(180, 5, 185, 10, 175, 10);
+      triangle(180, hBarraHerramientas-5, 185, hBarraHerramientas-10, 175, hBarraHerramientas-10);
+      
+      text('Rotate: ', x+wHerramienta+110, 2*hBarraHerramientas/3);
+      triangle(x+wHerramienta+155, hBarraHerramientas/2, x+wHerramienta+160, hBarraHerramientas/2-5, x+wHerramienta+160, hBarraHerramientas/2+5);
+      triangle(x+wHerramienta+140+hBarraHerramientas, hBarraHerramientas/2-5, x+wHerramienta+140+hBarraHerramientas, hBarraHerramientas/2+5, x+wHerramienta+145+hBarraHerramientas, hBarraHerramientas/2); 
+      pop();
     }
     
     //Dibujo simétrico
@@ -425,6 +493,71 @@ function draw()
       fill(0);
       ellipse(x+x1, y, 3, 3);
       ellipse(x+wHerramienta-x1, y, 3, 3);
+      pop();
+      
+      push();
+      strokeWeight(1);
+      fill(0);
+      text('Change size: ', x+wHerramienta+10, 2*hBarraHerramientas/3);
+      strokeWeight(1);
+      fill(0);
+      triangle(180, 5, 185, 10, 175, 10);
+      triangle(180, hBarraHerramientas-5, 185, hBarraHerramientas-10, 175, hBarraHerramientas-10);
+      pop();
+    }
+    
+    //Líneas mitades-mouse
+    else if(herramienta==7)
+    {
+      push();
+      x1=constrain(map(mouseX, 0, width, x, x+wHerramienta), x,x+wHerramienta);
+      y1=constrain(map(mouseY, 0, height, 5, 5+hHerramienta), 5, 5+hHerramienta);
+      strokeWeight(0.5);
+      line(x, 5+hHerramienta/2, x1, y1);
+      line(x+wHerramienta, 5+hHerramienta/2, x1, y1);
+      line(x+wHerramienta/2, 5, x1, y1);
+      line(x+wHerramienta/2, 5+hHerramienta, x1, y1);
+    
+      strokeWeight(1);
+      fill(0);
+      text('Change size: ', x+wHerramienta+10, 2*hBarraHerramientas/3);
+      strokeWeight(1);
+      fill(0);
+      triangle(180, 5, 185, 10, 175, 10);
+      triangle(180, hBarraHerramientas-5, 185, hBarraHerramientas-10, 175, hBarraHerramientas-10);
+      pop();
+    }
+    
+    //Spray
+    else if(herramienta==8)
+    {
+      push();
+      
+      for(var i=0; i<30; i++)
+      {
+        point(x+wHerramienta/2+random(-wHerramienta/2, wHerramienta/2), 5+hHerramienta/2+random(-wHerramienta/2, wHerramienta/2));
+      }
+      
+      strokeWeight(1);
+      fill(0);
+      text('Change size: ', x+wHerramienta+10, 2*hBarraHerramientas/3);
+      strokeWeight(1);
+      fill(0);
+      triangle(180, 5, 185, 10, 175, 10);
+      triangle(180, hBarraHerramientas-5, 185, hBarraHerramientas-10, 175, hBarraHerramientas-10);
+      pop();
+    }
+    
+    else if(herramienta==9)
+    {
+      push();
+      text(key, x+6, wHerramienta);
+      text('Type letter, click the mouse.', x+wHerramienta+10, 2*hBarraHerramientas/3);
+      strokeWeight(1);
+      fill(0);
+      text('Change size: ', x+wHerramienta+160, 2*hBarraHerramientas/3);
+      triangle(330, 5, 335, 10, 325, 10);
+      triangle(330, hBarraHerramientas-5, 335, hBarraHerramientas-10, 325, hBarraHerramientas-10);
       pop();
     }
   }
