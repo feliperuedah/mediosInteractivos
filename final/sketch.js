@@ -19,7 +19,7 @@ var bola;
 var fin;
 
 //Radio de luz desde la bola
-var lightRadius = 50;
+var lightRadius = 60;
 
 
 var m = 0;
@@ -341,7 +341,7 @@ function checkEnded(ball, finish)
   {
     ball.entrar(finish);
 
-    if(dist(ball.x, ball.y, finish.x, finish.y) <= 0.5)
+    if(dist(ball.x, ball.y, finish.x, finish.y) <= 1)
     {
       changeLevel();
     }
