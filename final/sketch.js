@@ -31,7 +31,7 @@ function setup()
   createCanvas(windowWidth, windowHeight);
   background(220);
   
-  lightRadius = 70;
+  lightRadius = 100;
   
   generateMaze(15);
 
@@ -150,12 +150,14 @@ function draw()
         if(lightRadius <= d && d < lightRadius + 40)
         {
           obstaculos[k].visited = true;
+          obstaculos[k].color = color(0, 0, 100);
           obstaculos[k].show();
         }
 
         if(d < lightRadius)
         {
           obstaculos[k].visited = true;
+          obstaculos[k].color = color(0, 0, 255);
           obstaculos[k].show();
         }
       }
