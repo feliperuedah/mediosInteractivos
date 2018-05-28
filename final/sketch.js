@@ -362,7 +362,7 @@ function checkEnded(ball, finish)
 
 function changeLevel()
 {
-  nivel++;
+  nivel = nivel + 1;
   
   if(nivel == 2)
   {
@@ -379,7 +379,7 @@ function changeLevel()
     r = 25;
   }
   
-  if(nivel <=5)
+  if(nivel <= 5)
   {
     generateMaze(r);
   
