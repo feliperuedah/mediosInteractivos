@@ -39,7 +39,7 @@ function setup()
   
   fin = new finish();
 
-  nivel = 5;
+  nivel = 0;
 }
 
 function draw()
