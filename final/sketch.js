@@ -401,7 +401,7 @@ function changeLevel()
   
     bola.moving = true;
 
-    fin.size = cellSize/2 + 5;
+    fin = new finish();
   }
 }
 
