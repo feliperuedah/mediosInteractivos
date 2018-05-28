@@ -70,7 +70,7 @@ function draw()
     textSize(40);
     text('Touch to play again', width/2, height-50);
     
-    if(touches.length || mouseIsPressed > 0)
+    if(touches.length > 0 || mouseIsPressed)
     {
       generateMaze(15);
       bola = new ball();
