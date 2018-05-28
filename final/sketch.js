@@ -39,7 +39,7 @@ function setup()
   
   fin = new finish();
 
-  nivel = 0;
+  nivel = 5;
 }
 
 function draw()
@@ -147,7 +147,7 @@ function draw()
       
       if(nivel == 5)
       {
-        if(lightRadius <= d && d < lightRadius + 40)
+        if(lightRadius <= d && d < 2*lightRadius)
         {
           obstaculos[k].color = color(0, 0, 100);
           obstaculos[k].show();
