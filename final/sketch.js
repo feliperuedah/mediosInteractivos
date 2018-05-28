@@ -69,6 +69,15 @@ function draw()
     text('GAME OVER: YOU WIN', width/2, height/2);
     textSize(40);
     text('Touch to play again', width/2, height-50);
+    
+    if(touches.length > 0)
+    {
+      generateMaze(15);
+      bola = new ball();
+      fin = new finish();
+      nivel = 0;
+    }
+    
     pop();
   }
  
