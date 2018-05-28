@@ -58,7 +58,7 @@ function draw()
     pop();
   }
   
-  if(nivel == 6)
+  else if(nivel == 6)
   {
     background(0);
     
@@ -81,7 +81,7 @@ function draw()
     pop();
   }
  
-  if(nivel >= 1)
+  else if(1 <= nivel && nivel <= 5)
   {
     background(12);
     push();
