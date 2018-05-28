@@ -355,7 +355,18 @@ function checkEnded(ball, finish)
 
     if(dist(ball.x, ball.y, finish.x, finish.y) <= 1)
     {
-      changeLevel();
+      if(nivel < 5)
+      {
+        changeLevel();
+      }
+      
+      else if(nivel == 5)
+      {
+        nivel = 6;
+        
+        bola.x = -30;
+        bola.y = -30;
+      }
     }
   }
 }
