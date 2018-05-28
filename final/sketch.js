@@ -19,7 +19,7 @@ var bola;
 var fin;
 
 //Radio de luz desde la bola
-var lightRadius = 60;
+var lightRadius;
 
 
 var m = 0;
@@ -30,6 +30,8 @@ function setup()
 {
   createCanvas(windowWidth, windowHeight);
   background(220);
+  
+  lightRadius = 60;
   
   generateMaze(15);
 
@@ -65,10 +67,11 @@ function draw()
     textAlign(CENTER);
     textSize(width/10);
     text('GAME OVER: YOU WIN', width/2, height/2);
+    textSize(40);
+    text('Touch to play again', width/2, height-50);
     pop();
   }
-  
-  
+ 
   if(nivel >= 1)
   {
     background(12);
