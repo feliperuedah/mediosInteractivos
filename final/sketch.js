@@ -70,7 +70,7 @@ function draw()
     textSize(40);
     text('Touch to play again', width/2, height-50);
     
-    if(touches.length > 0)
+    if(touches.length || mouseIsPressed > 0)
     {
       generateMaze(15);
       bola = new ball();
@@ -149,14 +149,12 @@ function draw()
       {
         if(lightRadius <= d && d < lightRadius + 40)
         {
-          obstaculos[k].color = color(0, 0, 100);
           obstaculos[k].visited = true;
           obstaculos[k].show();
         }
 
         if(d < lightRadius)
         {
-          obstaculos[k].color = color(0, 0, 255);
           obstaculos[k].visited = true;
           obstaculos[k].show();
         }
