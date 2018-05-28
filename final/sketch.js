@@ -150,14 +150,14 @@ function draw()
         if(lightRadius <= d && d < lightRadius + 40)
         {
           obstaculos[k].color = color(0, 0, 100);
-          obstaculos[k].visited();
+          obstaculos[k].visited = true;
           obstaculos[k].show();
         }
 
         if(d < lightRadius)
         {
           obstaculos[k].color = color(0, 0, 255);
-          obstaculos[k].visited();
+          obstaculos[k].visited = true;
           obstaculos[k].show();
         }
       }
