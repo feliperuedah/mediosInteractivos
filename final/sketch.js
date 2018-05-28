@@ -379,14 +379,17 @@ function changeLevel()
     r = 25;
   }
   
-  generateMaze(r);
+  if(nivel <=5)
+  {
+    generateMaze(r);
   
-  bola.x = cellSize/2;
-  bola.y = cellSize/2;
+    bola.x = cellSize/2;
+    bola.y = cellSize/2;
   
-  bola.moving = true;
+    bola.moving = true;
 
-  fin.size = 0.7*cellSize;
+    fin.size = 0.7*cellSize;
+  }
 }
 
 function touchStarted() 
